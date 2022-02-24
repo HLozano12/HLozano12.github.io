@@ -5,25 +5,30 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>Take a Walk With Me</title>
+
   <!-- three.js -->
   <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
   <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
+
 <!-- Starting an immersive WebXR session requires user interaction.
     We start this one with a simple button. -->
 <button onclick="activateXR()">Start Hello WebXR</button>
 <script>
+
 async function activateXR() {
   // Add a canvas element and initialize a WebGL context that is compatible with WebXR.
   const canvas = document.createElement("canvas");
   document.body.appendChild(canvas);
   const gl = canvas.getContext("webgl", {xrCompatible: true});
 const scene = new THREE.Scene();
+
 // light mapping the objects placed
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
 directionalLight.position.set(10, 15, 10);
 scene.add(directionalLight);
+
 // Set up the WebGLRenderer, which handles rendering to the session's base layer.
 const renderer = new THREE.WebGLRenderer({
   alpha: true,
@@ -32,23 +37,29 @@ const renderer = new THREE.WebGLRenderer({
   context: gl
 });
 renderer.autoClear = false;
+
 // The API directly updates the camera matrices.
 // Disable matrix auto updates so three.js doesn't attempt
 // to handle the matrices independently.
 const camera = new THREE.PerspectiveCamera();
 camera.matrixAutoUpdate = false;
+
 // session for hit test
 const session = await navigator.xr.requestSession("immersive-ar", {requiredFeatures: ['hit-test']});
 session.updateRenderState({
   baseLayer: new XRWebGLLayer(session, gl)
 });
+
 // A 'local' reference space has a native origin that is located
 // near the viewer's position at the time the session was created.
 const referenceSpace = await session.requestReferenceSpace('local');
+
 // Create another XRReferenceSpace that has the viewer as the origin.
 const viewerSpace = await session.requestReferenceSpace('viewer');
+
 // Perform hit testing using the viewer as origin.
 const hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+
 // Load GLTF models
 // Use the model loader from the previous step to load a targeting reticle and a Walk from the web.
 const loader = new THREE.GLTFLoader();
@@ -60,17 +71,24 @@ loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/re
 })
 
 let Walk;
-loader.load("https://github.com/HLozano12/HLozano12.github.io/blob/main/assets/NewBalance%20Shoe/scene.gltf", function(gltf) {
-  Walk = gltf.scene;
-});
+//loader.load("https://github.com/HLozano12/HLozano12.github.io/blob/main/assets/NewBalance%20Shoe/scene.gltf", function(gltf) {
+  //Walk = gltf.scene;
+//});
+
 // Make a new shoe appear when the user taps on the screen by adding this code during initialization
 session.addEventListener("select", (event) => {
-  if (Walk) {
+	loader.load("jsonfile", function(gltf) {
+		console.log("loaded");
+		shoe = gltf.scene;
+	})
+  
+if (Walk) {
     const clone = Walk.clone();
     clone.position.copy(reticle.position);
     scene.add(clone);
   }
 });
+
 // Create a render loop that allows us to draw on the AR view.
 const onXRFrame = (time, frame) => {
   // Queue up the next draw request.
