@@ -14,7 +14,7 @@
 
 <!-- Starting an immersive WebXR session requires user interaction.
     We start this one with a simple button. -->
-<button onclick="activateXR()">Start Hello WebXR</button>
+<button onclick="activateXR()">Click to view  WebXR</button>
 <script>
 
 async function activateXR() {
@@ -77,7 +77,7 @@ let Walk;
 
 // Make a new shoe appear when the user taps on the screen by adding this code during initialization
 session.addEventListener("select", (event) => {
-	loader.load("https://github.com/HLozano12/HLozano12.github.io/main/tree/assets/NewBalanceShoe/scene.json", function(gltf) {
+	loader.load("https://github.com/HLozano12/HLozano12.github.io/tree/main/assets/NewBalanceShoe/scene.json", function(gltf) {
 		console.log("loaded");
 		Walk = gltf.scene;
 	})
