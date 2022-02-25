@@ -73,11 +73,11 @@ loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/re
 })
 
 let Shoe;
-loader.load("assets/scene.gltf", function(gltf) {
+loader.load("assets/Vans/vans.gltf", function(gltf) {
   Shoe = gltf.scene;
 });
 
-// Make a new sunflower appear when the user taps on the screen by adding this code during initialization
+// Make a new Shoe appear when the user taps on the screen by adding this code during initialization
 session.addEventListener("select", (event) => {
   if (Shoe) {
     const clone = Shoe.clone();
