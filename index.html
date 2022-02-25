@@ -72,15 +72,15 @@ loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/re
   scene.add(reticle);
 })
 
-let flower;
-loader.load("https://github.com/immersive-web/webxr-samples/blob/main/media/gltf/stereo/stereo.gltf", function(gltf) {
-  flower = gltf.scene;
+let Shoe;
+loader.load("https://github.com/HLozano12/HLozano12.github.io/blob/main/assets/scene.gltf", function(gltf) {
+  Shoe = gltf.scene;
 });
 
 // Make a new sunflower appear when the user taps on the screen by adding this code during initialization
 session.addEventListener("select", (event) => {
-  if (flower) {
-    const clone = flower.clone();
+  if (Shoe) {
+    const clone = Shoe.clone();
     clone.position.copy(reticle.position);
     scene.add(clone);
   }
